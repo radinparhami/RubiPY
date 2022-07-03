@@ -1,7 +1,7 @@
-### RubiPY
+# RubiPY
 > *Python Rubika Library [ 1.0 ]*
 
-# Code
+### Code
 > Sample code to log into the user account and send a message
 
 ```python
