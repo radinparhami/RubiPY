@@ -1,7 +1,7 @@
 # RubiPY
-> *Python Rubika Library [ 1.0 ]*
+> *Python Rubika Library* **[ 1.0 ]**
 
-### Code
+## Code
 > Sample code to log into the user account and send a message
 
 ```python
@@ -19,4 +19,4 @@ async def main():
 run(main())
 ```
 
-# **[Telegram Channel](https://t.me/RubiPY_Nots)**
+### **[Telegram Channel](https://t.me/RubiPY_Nots)**
