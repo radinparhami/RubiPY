@@ -3,7 +3,6 @@ from rubipy.raw import functions
 from typing import Union
 from asyncio import run
 from .values import *
-import rubika
 
 
 class Client(Methods):
