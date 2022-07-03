@@ -1,6 +1,5 @@
 ## RubiPY
-Python Rubika Library
-version = 1.0.0
+> Python Rubika Library
 
 # Code
 > Sample code to log into the user account and send a message
