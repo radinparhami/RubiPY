@@ -1,5 +1,5 @@
 # RubiPY
-Python rubika library
+Python Rubika Library
 
 # Code
 
