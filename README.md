@@ -1,7 +1,9 @@
-# RubiPY
+## RubiPY
 Python Rubika Library
+version = 1.0.0
 
 # Code
+> Sample code to log into the user account and send a message
 
 ```python
 from rubipy import Client
