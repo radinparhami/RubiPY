@@ -5,18 +5,37 @@
 > Sample code to log into the user account and send a message
 
 ```python
-from rubipy import Client
-from asyncio import run
+from rubipy.crypto.values import InData, def_rnd
+from rubipy import Client, Filters
+from rubipy.types import Message
 
-app = Client(session_name='Your_Session')
-
-
-async def main():
-    my_account = await app.get_me()
-    await app.send_message(my_account.user_guid, "Hi")
+app = Client("my_account", notif=True)
 
 
-run(main())
+@app.on_message(Filters.text & Filters.private)
+async def receive_message(message: Message):
+    message_id = message.message_id  # Message ID
+    user_guid = message.user_guid  # Object Guid
+    text = message.text  # Message Text
+
+    await message.reply(f"Forwarding {text} ...", qute=True)
+
+    input_data = dict(
+        from_object_guid=user_guid,
+        to_object_guid=user_guid,
+        message_ids=[message_id],
+        rnd=def_rnd(),
+    )
+
+    await app.invoke(
+        InData(
+            method="forwardMessages",  # Method Name
+            INPUT=input_data,  # INPUT Data
+        )
+    )
+
+
+app.run()
 ```
 
 ### **[Telegram Channel](https://t.me/RubiPY_Nots)**
