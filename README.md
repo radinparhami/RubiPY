@@ -2,7 +2,7 @@
 > *Python Rubika Library* **[ 1.8 ]**
 
 ## Code
-> Sample code to log into the user account and send a message
+> Sample code to log into the user account and forward a message
 
 ```python
 from rubipy.crypto.values import InData, def_rnd
