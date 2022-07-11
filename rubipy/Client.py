@@ -69,4 +69,3 @@ class Client(Methods):
 
     def run(self):
         run(self.start())
-        print('dw')
