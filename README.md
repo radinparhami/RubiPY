@@ -1,5 +1,5 @@
 # RubiPY
-> *Python Rubika Library* **[ 0.3 ]**
+> *Python Rubika Library* **[ 1.8 ]**
 
 ## Code
 > Sample code to log into the user account and send a message
