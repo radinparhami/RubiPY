@@ -1,6 +1,6 @@
 #  Pyrogram - Telegram MTProto API Client Library for Python
-from rubipy.raw.functions.session import Separator, SqliteSession
-from rubipy.raw import functions
+from rubipy.functions.session import Separator, SqliteSession
+from rubipy.functions import auth
 
 
 class SignIn:
@@ -12,25 +12,22 @@ class SignIn:
     ) -> bool:
         phone_number = phone_number.strip(" +")
 
-        query = functions.auth.SignIn(
-            phone_number=phone_number,
-            phone_code_hash=phone_code_hash,
-            phone_code=phone_code
-        ).sign_in()
         invoke = await self.invoke(
-            query=query,
-            auth_key=query[-1]['tmp_session']
+            *auth.SignIn(
+                phone_number=phone_number,
+                phone_code_hash=phone_code_hash,
+                phone_code=phone_code
+            ).sign_in()
         )
 
         datas = Separator(invoke).session()
-        SqliteSession(self.name).set_data(*datas)
+        SqliteSession(self.session_name).set_data(*datas)
         status, auth_key = invoke.status, datas[1]
 
-        query = functions.auth.RegisterDevice(auth=auth_key).register()
-        invoke = await self.invoke(
-            query=query,
+        return (await self.invoke(
+            auth.RegisterDevice(
+                auth=auth_key
+            ).register(),
             auth_key=auth_key,
             api_version='4'
-        )
-
-        return status
+        )).status

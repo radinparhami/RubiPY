@@ -1,4 +1,4 @@
-from rubipy.raw import functions
+from rubipy.functions import users
 from typing import Union
 from re import findall
 
@@ -13,16 +13,14 @@ class GetUser:
         user_name = findall(pattern, username)
         if user_name:
             return (await self.invoke(
-                functions.users.GetUserByUsername(
+                users.GetUserByUsername(
                     username=user_name[0][1:]
                 ).get_user(),
-                auth_key=True,
             )).data.user
         else:
             return (await self.invoke(
-                functions.users.GetUser(
+                GetUser(
                     object_guid=username,
                 ).get_user(),
-                auth_key=True,
             )).data.user
 

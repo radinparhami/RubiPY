@@ -1,4 +1,4 @@
-from rubipy.raw import functions
+from rubipy.functions import messages
 
 
 class EditMessage:
@@ -10,10 +10,9 @@ class EditMessage:
 
     ):
         return (await self.invoke(
-            functions.messages.EditMessage(
+            messages.EditMessage(
                 object_guid=user_guid,
                 message_id=message_id,
                 text=str(text),
             ).edit_message(),
-            auth_key=True,
         )).data.message_update

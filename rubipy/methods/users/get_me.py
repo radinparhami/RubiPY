@@ -1,4 +1,4 @@
-from rubipy.raw import functions
+from rubipy.functions import users
 from typing import Union
 
 
@@ -7,8 +7,7 @@ class GetMe:
             self: "rubipy.Client",
     ):
         return (await self.invoke(
-            functions.users.GetUser(
+            users.GetUser(
                 object_guid=self.user_guid
             ).get_user(),
-            auth_key=True,
         )).data.user

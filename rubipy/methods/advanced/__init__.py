@@ -1,11 +1,11 @@
 #  Pyrogram - Telegram MTProto API Client Library for Python
 
-from .updates import Updates
+from .authorize import Authorize
 from .invoke import Invoke
 
 
 class Advanced(
-    Updates,
+    Authorize,
     Invoke,
 ):
     pass

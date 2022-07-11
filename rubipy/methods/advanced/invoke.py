@@ -1,16 +1,17 @@
 #  Pyrogram - Telegram MTProto API Client Library for Python
 
-from rubipy.client.values import crypto, def_get, def_snd
+from rubipy.crypto.values import crypto, def_snd
 from json import loads, dumps, JSONDecodeError
-from rubipy.raw.functions import data
-from requests import post
+from aiohttp import ClientSession
+from rubipy.functions import data
+from typing import Union
 
 
 class Invoke:
     async def invoke(
             self: "rubipy.Client",
             query: tuple,
-            auth_key: str,
+            auth_key: Union[str, bool] = False,
             api_version: str = "5",
             back: str = None,
     ):
@@ -18,6 +19,7 @@ class Invoke:
         auth_key = self.auth_key if check else auth_key
         cryption = crypto.Cryption(auth_key)
         InData, Json_Dict = query
+
         Json = dict(
             api_version=api_version,
             data_enc=cryption.encrypt(dumps(InData)),
@@ -30,20 +32,26 @@ class Invoke:
         while Start:
             try:
                 Start.pop()
-                request = post(
-                    url=def_get(),
+
+                connection = self.connection.connection
+                dcs = await self.connection.dcs()
+                request = await connection.post(
+                    url=dcs['api'],
                     json=Json,
-                    timeout=5
                 )
-                data_enc = request.json()['data_enc']
-                load_datas = data.fromDict(loads(cryption.decrypt(data_enc)))
-                error = load_datas.status_det
+
+                data_enc = (await request.json())['data_enc']
+                self.load_datas = loads(cryption.decrypt(data_enc))
+                self.load_data = data.fromDict(self.load_datas)
+                error = self.load_data.status_det or self.load_data.status
+
                 if error and error != "OK":
                     raise RuntimeError(error)
-                else:
-                    return load_datas
+                break
             except Exception as Error:
                 if Start:
                     continue
                 else:
                     raise Error
+
+        return self.load_data

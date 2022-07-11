@@ -1,4 +1,4 @@
-from rubipy.raw import functions
+from rubipy.functions import messages
 
 
 class SendMessage:
@@ -10,10 +10,9 @@ class SendMessage:
 
     ):
         return (await self.invoke(
-            functions.messages.SendMessage(
+            messages.SendMessage(
                 reply_to_msg_id=reply_to_message_id,
                 object_guid=user_guid,
                 text=str(text),
             ).send_message(),
-            auth_key=True,
         )).data.message_update

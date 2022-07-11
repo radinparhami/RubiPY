@@ -1,26 +1,24 @@
-from rubipy.raw import functions
+from rubipy.functions import auth
+from rubipy.functions import data
 
 
 class SendCode():
     async def send_code(
             self: "rubipy.Client",
-            phone_number: str
+            phone_number: str,
+            pass_key: bool = None,
+            send_type: str = 'SMS'
     ):
-        phone_number = phone_number.strip(" +")
-
         try:
-            query = functions.auth.SendCode(
-                phone_number=phone_number,
-            ).send_code()
-            invoke = await self.invoke(
-                query=query,
-                auth_key=query[-1]['tmp_session']
-            )
+            sent_code = (await self.invoke(
+                *auth.SendCode(
+                    phone_number,
+                    send_type,
+                    pass_key,
+                ).send_code()
+            )).data
+            sent_code.update(dict(send_type=send_type))
 
-            data = dict(
-                phone_code_hash=invoke.data.phone_code_hash,
-                code_digits_count=invoke.data.code_digits_count,
-            )
-            return functions.data.fromDict(data)
+            return sent_code
         except Exception as error:
             raise error

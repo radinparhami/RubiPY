@@ -1,4 +1,5 @@
-from rubipy.raw import functions
+from rubipy.crypto.values import Global, Local
+from rubipy.functions import messages
 from typing import Union
 
 
@@ -7,16 +8,15 @@ class DeleteMessage:
             self: "rubipy.Client",
             user_guid: str,
             message_ids: Union[int, list],
-            type: str = "Global",
+            global_delete: bool = True,
 
     ):
-        message_ids = [message_ids] if \
-            isinstance(message_ids, str) else message_ids
+        message_ids = message_ids if isinstance(
+            message_ids, list) else [message_ids]
         return (await self.invoke(
-            functions.messages.DeleteMessage(
+            messages.DeleteMessage(
                 object_guid=user_guid,
                 message_ids=message_ids,
-                type=type,
+                type=Global if global_delete else Local,
             ).delete_message(),
-            auth_key=True,
         )).data
