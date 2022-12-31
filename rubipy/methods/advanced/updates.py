@@ -18,7 +18,6 @@ class Updates:
         self.res = load_datas
 
     def ret(self):
-        Methods
         self.sendMessage = self.res
         req = exec(f"self.{self.method}")
         print(req)
